@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- skill:chrome -->
+<style>
+/* Credit line — bottom-right */
+.design-ui-credit {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  font: 11px/1 system-ui, sans-serif;
+  color: rgba(128,128,128,0.5);
+  pointer-events: none;
+  z-index: 2147483647;
+  transition: opacity 0.4s ease;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+/* Hide chrome on touch devices */
+@media (hover: none) {
+  .design-ui-credit { display: none; }
+}
+
+/* Print fixes */
+@media print {
+  * {
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .design-ui-credit { display: none !important; }
+}
+
+</style>
+<script>
+(function () {
+    // Design-ui pages are single compositions, so the whole body is editable.
+    function markEditable() {
+        document.body.classList.add('artifact-editable');
+    }
+
+    // Credit badge with idle-fade. Hover devices only.
+    function initChromeUI() {
+        if (!matchMedia('(hover: hover)').matches) return;
+
+        var credit = document.createElement('div');
+        credit.className = 'design-ui-credit';
+        credit.setAttribute('aria-hidden', 'true');
+        credit.innerHTML = '\u{1F49C} by ClickUp Brain';
+        document.body.appendChild(credit);
+
+        var timer = null;
+        var fade = function (out) { credit.style.opacity = out ? '0' : ''; };
+        fade(true);
+        var show = function () {
+            fade(false);
+            clearTimeout(timer);
+            timer = setTimeout(function () { fade(true); }, 3000);
+        };
+        document.addEventListener('mousemove', show);
+        show();
+    }
+
+    function init() {
+        markEditable();
+        initChromeUI();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+</script>
+<!-- /skill:chrome -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lavan | Premium Mug Branding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--ocean:#1E6BB5;--teal:#1A8F8F;--leaf:#28A365;--sky:#5DB8F0;--aqua:#4DD4C4;--mint:#4DE88A;--deep-ink:#0D1B2A;--dark-card:#132238;--dark-elevated:#1A2D45;--dark-border:rgba(93,184,240,0.08);--text-primary:#E8ECF0;--text-secondary:rgba(232,236,240,0.55);--text-muted:rgba(232,236,240,0.35);--grad:linear-gradient(135deg,var(--ocean) 0%,var(--teal) 50%,var(--leaf) 100%);--grad-light:linear-gradient(135deg,var(--sky) 0%,var(--aqua) 50%,var(--mint) 100%);--radius-sm:12px;--radius-md:18px;--radius-lg:24px;--radius-xl:32px;--ease:cubic-bezier(0.16,1,0.3,1)}
+    html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+    body{font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;color:var(--text-secondary);background:var(--deep-ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    h1,h2,h3,h4{font-family:'Nunito',sans-serif;color:var(--text-primary);text-wrap:balance}
+
+    /* PRELOADER */
+    .preloader{position:fixed;inset:0;z-index:10000;background:var(--deep-ink);display:flex;align-items:center;justify-content:center;transition:opacity .8s var(--ease),visibility .8s}
+    .preloader.done{opacity:0;visibility:hidden;pointer-events:none}
+    .preloader-text{font-family:'Nunito';font-size:32px;font-weight:800;background:var(--grad-light);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:breathe 1.4s ease-in-out infinite}
+    @keyframes breathe{0%,100%{opacity:.3;transform:scale(.97)}50%{opacity:1;transform:scale(1)}}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;transition:all 400ms var(--ease)}
+    .nav.scrolled{padding:12px 32px;background:rgba(13,27,42,.92);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid var(--dark-border)}
+    .nav.hidden{transform:translateY(-100%)}
+    .nav-logo{font-family:'Nunito';font-size:22px;font-weight:800;text-decoration:none;background:var(--grad-light);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .nav-links{display:flex;gap:28px;list-style:none}
+    .nav-links a{font-size:13px;font-weight:500;color:var(--text-secondary);text-decoration:none;transition:color 200ms}
+    .nav-links a:hover{color:var(--text-primary)}
+    .nav-cta{padding:10px 22px;background:var(--grad);color:#fff;font-size:13px;font-weight:600;border:none;border-radius:28px;text-decoration:none;transition:transform 250ms var(--ease),box-shadow 250ms}
+    .nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(30,107,181,.35)}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:28px;height:28px;cursor:pointer;background:none;border:none;padding:0;z-index:1002}
+    .hamburger span{display:block;width:100%;height:2px;background:var(--text-primary);border-radius:2px;transition:all 300ms var(--ease);transform-origin:center}
+    .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.active span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    /* MOBILE MENU */
+    .mobile-menu{position:fixed;inset:0;z-index:999;background:rgba(13,27,42,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:0;visibility:hidden;transition:opacity 400ms var(--ease),visibility 400ms}
+    .mobile-menu.open{opacity:1;visibility:visible}
+    .mobile-menu a{font-family:'Nunito';font-size:22px;font-weight:700;color:var(--text-primary);text-decoration:none;opacity:0;transform:translateY(16px);transition:opacity 300ms var(--ease),transform 300ms var(--ease),color 200ms}
+    .mobile-menu.open a{opacity:1;transform:translateY(0)}
+    .mobile-menu.open a:nth-child(1){transition-delay:50ms}
+    .mobile-menu.open a:nth-child(2){transition-delay:100ms}
+    .mobile-menu.open a:nth-child(3){transition-delay:150ms}
+    .mobile-menu.open a:nth-child(4){transition-delay:200ms}
+    .mobile-menu.open a:nth-child(5){transition-delay:250ms}
+    .mobile-menu.open a:nth-child(6){transition-delay:300ms}
+    .mobile-menu a:hover{color:var(--aqua)}
+
+    /* HERO - Desktop: full bleed image | Mobile: text only with glow */
+    .hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:flex-end;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;z-index:0}
+    .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:left center}
+    .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(13,27,42,.1) 0%,rgba(13,27,42,.4) 40%,rgba(13,27,42,.85) 70%,rgba(13,27,42,.95) 100%)}
+    .hero-content{position:relative;z-index:2;max-width:520px;padding:120px 48px 80px 32px;margin-right:5%}
+    .hero-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--aqua);margin-bottom:16px}
+    .hero-title{font-size:clamp(28px,4.5vw,52px);font-weight:800;color:var(--text-primary);line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
+    .hero-sub{font-size:16px;color:rgba(255,255,255,.6);max-width:40ch;line-height:1.75;margin-bottom:32px}
+    .hero-cta{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--grad);color:#fff;border-radius:28px;font-size:14px;font-weight:600;text-decoration:none;transition:transform 300ms var(--ease),box-shadow 300ms;border:none}
+    .hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(30,107,181,.35)}
+
+    /* PRODUCT CARDS */
+    .products-row{max-width:1240px;margin:-40px auto 0;padding:0 32px 80px;position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+    .p-card{background:var(--dark-card);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--dark-border);transition:transform 350ms var(--ease),border-color 350ms}
+    .p-card:hover{transform:translateY(-3px);border-color:rgba(93,184,240,.12)}
+    .p-card .p-img{aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius-md);margin:10px}
+    .p-card .p-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;border-radius:var(--radius-md)}
+    .p-card .p-info{padding:4px 14px 16px}
+    .p-tag{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--aqua);margin-bottom:3px}
+    .p-info h3{font-size:14px;font-weight:700;margin-bottom:3px}
+    .p-info p{font-size:12px;color:var(--text-muted);line-height:1.5}
+
+    /* SECTIONS */
+    .section{padding:90px 32px;position:relative}
+    .inner{max-width:1140px;margin:0 auto}
+    .section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--aqua);margin-bottom:12px;display:block}
+    .section h2{font-size:clamp(24px,3.5vw,36px);font-weight:800;margin-bottom:10px}
+    .section-intro{max-width:50ch;margin-bottom:44px;font-size:16px;line-height:1.75}
+
+    /* SERVICES */
+    .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .svc-card{padding:32px 26px;border-radius:var(--radius-lg);background:var(--dark-card);border:1px solid var(--dark-border);transition:transform 400ms var(--ease),border-color 400ms;position:relative;overflow:hidden}
+    .svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:transform 400ms var(--ease)}
+    .svc-card:hover{transform:translateY(-3px);border-color:rgba(93,184,240,.12)}
+    .svc-card:hover::before{transform:scaleX(1)}
+    .svc-ico{width:44px;height:44px;border-radius:12px;background:var(--dark-elevated);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+    .svc-ico svg{width:22px;height:22px;stroke:var(--aqua);fill:none;stroke-width:1.5}
+    .svc-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+    .svc-card>p{margin-bottom:20px;line-height:1.7;font-size:15px}
+    .svc-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:var(--grad);color:#fff;font-size:13px;font-weight:600;border:none;border-radius:20px;text-decoration:none;transition:transform 250ms var(--ease),box-shadow 250ms}
+    .svc-btn:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(30,107,181,.3)}
+    .exp-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:var(--dark-elevated);color:var(--sky);font-size:13px;font-weight:600;border:1px solid var(--dark-border);border-radius:20px;cursor:pointer;transition:all 250ms var(--ease)}
+    .exp-btn:hover{background:rgba(93,184,240,.08);border-color:rgba(93,184,240,.2)}
+    .exp-btn .arr{transition:transform 300ms var(--ease);font-size:10px}
+    .exp-btn.on .arr{transform:rotate(180deg)}
+
+    /* MUGS */
+    .mugs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;max-height:0;overflow:hidden;opacity:0;transition:max-height 600ms var(--ease),opacity 400ms,margin 300ms}
+    .mugs.show{max-height:1200px;opacity:1;margin-top:16px}
+    .mug-c{background:var(--dark-elevated);border-radius:var(--radius-sm);padding:12px;text-align:center;border:1px solid var(--dark-border);transition:transform 250ms var(--ease)}
+    .mug-c:hover{transform:translateY(-2px)}
+    .mug-img-wrap{width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:8px;margin-bottom:8px;background:#f8f8f8;display:flex;align-items:center;justify-content:center}
+    .mug-img-wrap img{width:100%;height:100%;object-fit:contain;display:block;border-radius:8px}
+    .mug-c h4{font-size:11px;font-weight:600;margin-bottom:6px;color:var(--text-primary)}
+    .mug-btn{padding:5px 12px;background:var(--grad);color:#fff;font-size:10px;font-weight:600;border:none;border-radius:14px;text-decoration:none;display:inline-block}
+
+    /* GALLERY */
+    .gallery-section{padding:90px 32px;overflow:hidden}
+    .gallery-header{max-width:1140px;margin:0 auto 36px}
+    .gallery-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .gallery-card{aspect-ratio:3/4;border-radius:var(--radius-xl);overflow:hidden;position:relative;border:1px solid var(--dark-border);transition:transform 350ms var(--ease)}
+    .gallery-card:hover{transform:scale(1.02)}
+    .gallery-card img{width:100%;height:100%;object-fit:cover;transition:transform 500ms var(--ease)}
+    .gallery-card:hover img{transform:scale(1.05)}
+    .gallery-overlay{position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(to top,rgba(13,27,42,.9) 0%,transparent 100%)}
+    .gallery-overlay span{font-size:13px;font-weight:600;color:var(--text-primary)}
+
+    /* PROCESS */
+    .process-section{padding:90px 32px;background:var(--dark-card);position:relative;overflow:hidden}
+    .process-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(30,107,181,.04) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(40,163,101,.03) 0%,transparent 40%);pointer-events:none}
+    .proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+    .proc-card{padding:24px 20px;border-radius:var(--radius-lg);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:transform 300ms var(--ease),border-color 300ms}
+    .proc-card:hover{transform:translateY(-3px);border-color:rgba(93,184,240,.12)}
+    .proc-num{width:28px;height:28px;border-radius:7px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-family:'Nunito';font-weight:800;font-size:12px;color:#fff;margin-bottom:12px}
+    .proc-card h3{font-size:15px;font-weight:700;margin-bottom:5px}
+    .proc-card p{font-size:14px;color:var(--text-muted);line-height:1.6}
+    .proc-note{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(93,184,240,.06);border:1px solid rgba(93,184,240,.12);border-radius:18px;color:var(--sky);font-size:12px;font-weight:500}
+
+    /* FAQ */
+    .faq-section{padding:90px 32px}
+    .faq-wrap{max-width:640px;margin:0 auto}
+    .fq{border-bottom:1px solid rgba(255,255,255,.05)}.fq:first-child{border-top:1px solid rgba(255,255,255,.05)}
+    .fq-btn{width:100%;padding:18px 0;background:none;border:none;font-family:'Inter';font-size:15px;font-weight:600;color:var(--text-primary);text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:color 200ms}
+    .fq-btn:hover{color:var(--sky)}
+    .fq-ico{width:22px;height:22px;border-radius:50%;background:var(--dark-elevated);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--sky);flex-shrink:0;transition:transform 300ms var(--ease),background 300ms}
+    .fq.on .fq-ico{transform:rotate(45deg);background:var(--ocean);color:#fff}
+    .fq-body{max-height:0;overflow:hidden;transition:max-height 400ms var(--ease),padding 300ms}
+    .fq.on .fq-body{max-height:120px;padding-bottom:14px}
+    .fq-body p{font-size:15px;line-height:1.7;color:var(--text-secondary)}
+
+    /* FOOTER */
+    .footer{padding:56px 32px 24px;background:var(--dark-card);border-top:1px solid var(--dark-border)}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+    .footer-brand-name{font-family:'Nunito';font-size:20px;font-weight:800;background:var(--grad-light);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
+    .footer-brand p{color:var(--text-muted);font-size:14px;line-height:1.7;max-width:26ch}
+    .soc{display:flex;gap:7px;margin-top:12px}
+    .soc a{width:30px;height:30px;border-radius:7px;background:var(--dark-elevated);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;transition:all 250ms}
+    .soc a:hover{background:var(--grad);border-color:transparent;color:white;transform:translateY(-2px)}
+    .footer h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-secondary);margin-bottom:8px}
+    .foot-links{list-style:none;display:flex;flex-direction:column;gap:6px}
+    .foot-links li{font-size:13px;color:var(--text-muted)}
+    .foot-links a{color:var(--text-muted);text-decoration:none;transition:color 200ms}
+    .foot-links a:hover{color:var(--aqua)}
+    .footer-bottom{padding-top:16px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center;color:var(--text-muted);font-size:11px}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){.products-row{grid-template-columns:1fr 1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){
+      .nav{padding:14px 20px}.nav.scrolled{padding:10px 20px}.nav-links{display:none}.hamburger{display:flex}.nav-cta{display:none}
+
+      /* MOBILE HERO: no image, text only with ambient glow */
+      .hero{min-height:auto;padding:120px 20px 60px;align-items:center;justify-content:center;background:var(--deep-ink)}
+      .hero-bg{display:none}
+      .hero-overlay{display:none}
+      .hero-content{max-width:100%;padding:0;margin-right:0;text-align:center}
+      .hero::after{content:'';position:absolute;top:20%;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(30,107,181,.12) 0%,rgba(26,143,143,.06) 40%,transparent 70%);pointer-events:none;z-index:0;border-radius:50%}
+      .hero-content{position:relative;z-index:2}
+      .hero-title{font-size:28px}
+      .hero-sub{font-size:14px;margin:0 auto 24px;max-width:36ch}
+      .hero-cta{padding:12px 24px;font-size:13px}
+
+      .products-row{grid-template-columns:1fr;padding:0 20px 60px;margin-top:0;gap:12px}
+      .p-card .p-img{aspect-ratio:16/9}
+      .section{padding:64px 20px}.svc-grid{grid-template-columns:1fr;gap:12px}.svc-card{padding:24px 20px}
+      .mugs{grid-template-columns:1fr 1fr;gap:8px}
+      .gallery-section{padding:64px 20px}.gallery-grid{grid-template-columns:1fr 1fr;gap:12px}.gallery-card{border-radius:var(--radius-lg)}
+      .process-section{padding:64px 20px}.proc-grid{grid-template-columns:1fr;gap:10px}
+      .faq-section{padding:64px 20px}
+      .footer{padding:40px 20px 16px}.footer-grid{grid-template-columns:1fr 1fr;gap:20px}.footer-bottom{flex-direction:column;gap:4px;text-align:center}
+    }
+    @media(max-width:420px){
+      .hero{padding:100px 16px 48px}
+      .hero-title{font-size:24px}
+      .hero-sub{font-size:13px}
+      .products-row{padding:0 16px 48px}
+      .section{padding:48px 16px}
+      .mugs{grid-template-columns:1fr 1fr;gap:8px}
+      .gallery-section{padding:48px 16px}.gallery-grid{grid-template-columns:1fr;gap:10px}
+      .process-section{padding:48px 16px}.faq-section{padding:48px 16px}
+      .footer{padding:32px 16px 14px}.footer-grid{grid-template-columns:1fr;gap:16px}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="preloader" id="preloader"><div class="preloader-text">lavan</div></div>
+  <div class="mobile-menu" id="mobile-menu"><a href="#services">Services</a><a href="#gallery">Gallery</a><a href="#process">Process</a><a href="#faq">FAQ</a><a href="#contact">Contact</a><a href="https://wa.me/233547355729" target="_blank" style="color:var(--aqua)">Order Now</a></div>
+
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-logo">lavan</a>
+    <ul class="nav-links"><li><a href="#services">Services</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#process">Process</a></li><li><a href="#faq">FAQ</a></li></ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a href="#contact" class="nav-cta">Contact Us</a>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg"><img src="https://u158533308.p.clickup-attachments.com/u158533308/77f74cd0-6558-431a-b9c1-488e7829d1b3/generated-image-f7a1d6ca-390b-4c6b-914a-8b1e6710d9cc.png?view=open" alt="Lavan branded mug with tropical leaf background"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Premium Mug Branding</p>
+      <h1 class="hero-title">Turn Every Coffee Break Into Brand Exposure</h1>
+      <p class="hero-sub">Your logo, your mugs, your story. We craft branded mugs people actually keep on their desk.</p>
+      <a href="#services" class="hero-cta">Get Started <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </section>
+
+  <div class="products-row">
+    <div class="p-card" data-reveal><div class="p-img"><img src="https://lh3.googleusercontent.com/drive-storage/AJQWtBO_1cM_q17m7gL3p8XCgGbqriwBKw22R6ApRPYt54NBUEMzWw1AHEzvG4xHi5kcAOiBs4oU4k_RJOeVSQkbjdg425q8nAElu6gPuoJq=s800" alt="Signature Collection"></div><div class="p-info"><span class="p-tag">Featured</span><h3>Signature Collection</h3><p>Premium ceramic with lasting brand application.</p></div></div>
+    <div class="p-card" data-reveal><div class="p-img"><img src="https://lh3.googleusercontent.com/drive-storage/AJQWtBOfst-kXgLLWXW6mmmxym4bmPeWI5jCjIOobDhNTnvyiKcdCrarSLStqSAlis-j1w38Kew5Ej1njt5KS4iRe8NkvYl2imwf8Rr-8sd8=s800" alt="Refined Forms"></div><div class="p-info"><h3>Refined Forms</h3><p>Simplified branding for cleaner design.</p></div></div>
+    <div class="p-card" data-reveal><div class="p-img"><img src="https://lh3.googleusercontent.com/drive-storage/AJQWtBPbtFlBHNrRnDYO6M4rezGbPLyghiezhjf-MFpBel5O2OvBQr_XQ8tBQpsoIsbPU_delskvUdwGOuhAw4ykhbFZL0YBhAfo_XbTwzHJ=s800" alt="Closer Look"></div><div class="p-info"><h3>Closer Look</h3><p>Every detail, every sip, your brand.</p></div></div>
+  </div>
+
+  <section class="section" id="services">
+    <div class="inner">
+      <span class="section-label">Our Services</span>
+      <h2>Two Ways to Brand</h2>
+      <p class="section-intro">Bring your own mugs or choose from our curated collection. Same premium quality.</p>
+      <div class="svc-grid">
+        <div class="svc-card" data-reveal>
+          <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12M4.93 19.07L7.76 16.24M16.24 7.76L19.07 4.93"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <h3>You Bring Your Mugs</h3>
+          <p>Already have mugs? Send them our way. We apply your brand with precision and lasting finish.</p>
+          <a href="https://wa.me/233547355729?text=Hi%20Lavan!%20I%20have%20my%20own%20mugs%20to%20brand." class="svc-btn" target="_blank" rel="noopener">Order via WhatsApp →</a>
+        </div>
+        <div class="svc-card" data-reveal>
+          <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2V12H22V7Z"/><path d="M12 22V7"/><path d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z"/><path d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z"/></svg></div>
+          <h3>We Provide the Mugs</h3>
+          <p>Pick from our premium collection. We source, brand, and deliver.</p>
+          <button class="exp-btn" onclick="toggleMugs(this)">View Our Mugs <span class="arr">▾</span></button>
+          <div class="mugs" id="mugs">
+            <div class="mug-c"><div class="mug-img-wrap"><img src="https://lh3.googleusercontent.com/d/1o8R5TesP_Q0yFsmyfngsAzZv3PCJoiF5" alt="Red Accent Ceramic"></div><h4>Red Accent Ceramic</h4><a href="https://wa.me/233547355729?text=Hi%20Lavan!%20I'd%20like%20the%20Red%20Accent%20Ceramic%20mug." class="mug-btn" target="_blank">Select & Order</a></div>
+            <div class="mug-c"><div class="mug-img-wrap"><img src="https://lh3.googleusercontent.com/d/1iQH-lNmw2SI2j7rLCbvHc8HSgGriqG2I" alt="Textured Barrel Mug"></div><h4>Textured Barrel Mug</h4><a href="https://wa.me/233547355729?text=Hi%20Lavan!%20I'd%20like%20the%20Textured%20Barrel%20Mug." class="mug-btn" target="_blank">Select & Order</a></div>
+            <div class="mug-c"><div class="mug-img-wrap"><img src="https://lh3.googleusercontent.com/d/1lRNEhF9qAd2eONIvcz0zHZALwfqznLSA" alt="Gradient Ombré Latte"></div><h4>Gradient Ombré Latte</h4><a href="https://wa.me/233547355729?text=Hi%20Lavan!%20I'd%20like%20the%20Gradient%20Ombré%20Latte%20mug." class="mug-btn" target="_blank">Select & Order</a></div>
+            <div class="mug-c"><div class="mug-img-wrap"><img src="https://lh3.googleusercontent.com/d/1DqpJ26pq25iYI4zWDcNUw-Daacntze8U" alt="Classic Monochrome"></div><h4>Classic Monochrome</h4><a href="https://wa.me/233547355729?text=Hi%20Lavan!%20I'd%20like%20the%20Classic%20Monochrome%20mug." class="mug-btn" target="_blank">Select & Order</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section" id="gallery">
+    <div class="gallery-header"><span class="section-label">Our Work</span><h2>Branded Mugs That Speak</h2><p class="section-intro">Real brands, real mugs, real impact.</p></div>
+    <div class="gallery-grid">
+      <div class="gallery-card" data-reveal><img src="https://lh3.googleusercontent.com/drive-storage/AJQWtBPwELzuzKQ6b0iqpUJilSkdEyfZz-zfynhQCSx3x3OZK4VY_dt-UvQdXj3w7EYBIo2feTw90rYv8JCBelgXqHJ4-e6Kuj7O6dmfScYB=s800" alt="Corporate" loading="lazy"><div class="gallery-overlay"><span>Corporate Collection</span></div></div>
+      <div class="gallery-card" data-reveal><img src="https://lh3.googleusercontent.com/drive-storage/AJQWtBO_1cM_q17m7gL3p8XCgGbqriwBKw22R6ApRPYt54NBUEMzWw1AHEzvG4xHi5kcAOiBs4oU4k_RJOeVSQkbjdg425q8nAElu6gPuoJq=s800" alt="Premium" loading="lazy"><div class="gallery-overlay"><span>Premium Finish</span></div></div>
+      <div class="gallery-card" data-reveal><img src="https://lh3.googleusercontent.com/drive-storage/AJQWtBOfst-kXgLLWXW6mmmxym4bmPeWI5jCjIOobDhNTnvyiKcdCrarSLStqSAlis-j1w38Kew5Ej1njt5KS4iRe8NkvYl2imwf8Rr-8sd8=s800" alt="Custom" loading="lazy"><div class="gallery-overlay"><span>Custom Branding</span></div></div>
+      <div class="gallery-card" data-reveal><img src="https://lh3.googleusercontent.com/drive-storage/AJQWtBPbtFlBHNrRnDYO6M4rezGbPLyghiezhjf-MFpBel5O2OvBQr_XQ8tBQpsoIsbPU_delskvUdwGOuhAw4ykhbFZL0YBhAfo_XbTwzHJ=s800" alt="Business" loading="lazy"><div class="gallery-overlay"><span>Business Ready</span></div></div>
+    </div>
+  </section>
+
+  <section class="process-section" id="process">
+    <div class="inner">
+      <span class="section-label">How It Works</span><h2>Three Simple Steps</h2><p class="section-intro">From mug selection to delivery, clean and straightforward.</p>
+      <div class="proc-grid">
+        <div class="proc-card" data-reveal><div class="proc-num">1</div><h3>Pick Your Mug</h3><p>Choose from our collection, or send us yours.</p></div>
+        <div class="proc-card" data-reveal><div class="proc-num">2</div><h3>Share Your Design</h3><p>Send your logo via WhatsApp. We create options.</p></div>
+        <div class="proc-card" data-reveal><div class="proc-num">3</div><h3>We Brand & Deliver</h3><p>Professional printing, durable finish, delivered.</p></div>
+      </div>
+      <div class="proc-note"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg> Already have mugs? Skip to step 2.</div>
+    </div>
+  </section>
+
+  <section class="faq-section" id="faq">
+    <div class="inner"><div class="faq-wrap">
+      <span class="section-label">Questions?</span><h2>Frequently Asked</h2><p class="section-intro" style="margin-bottom:28px">Straightforward answers to what clients ask most.</p>
+      <div class="fq"><button class="fq-btn">How long for my design after submitting artwork?<span class="fq-ico">+</span></button><div class="fq-body"><p>48 hours, maximum. We move fast.</p></div></div>
+      <div class="fq"><button class="fq-btn">Is pricing different if I bring my own mugs?<span class="fq-ico">+</span></button><div class="fq-body"><p>No. Our branding fee covers the craft, not the mug.</p></div></div>
+      <div class="fq"><button class="fq-btn">What are the payment terms?<span class="fq-ico">+</span></button><div class="fq-body"><p>70% upfront, 30% on completion.</p></div></div>
+      <div class="fq"><button class="fq-btn">What if I don't like the designs?<span class="fq-ico">+</span></button><div class="fq-body"><p>Multiple options and revisions included.</p></div></div>
+      <div class="fq"><button class="fq-btn">How long does delivery take?<span class="fq-ico">+</span></button><div class="fq-body"><p>5 to 7 business days after approval.</p></div></div>
+      <div class="fq"><button class="fq-btn">Do you offer delivery?<span class="fq-ico">+</span></button><div class="fq-body"><p>Yes. Fee based on location, confirmed before dispatch.</p></div></div>
+    </div></div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <div class="inner">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="footer-brand-name">lavan</div><p>Your brand, held daily. We make mugs people keep on their desk.</p><div class="soc"><a href="#" aria-label="Facebook"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a><a href="#" aria-label="Instagram"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a><a href="#" aria-label="X"><svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div></div>
+        <div><h4>Contact</h4><ul class="foot-links"><li>naaowedey@gmail.com</li><li>+233 547 355 729</li></ul></div>
+        <div><h4>Address</h4><ul class="foot-links"><li>22 Joy Street, Oak Avenue</li><li>Adenta, Accra, Ghana</li></ul></div>
+        <div><h4>Hours</h4><ul class="foot-links"><li>Mon - Fri: 8am - 5pm</li><li>Sat: 8am - 2pm</li><li>Sun: Closed</li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2026 Lavan. All rights reserved.</span><span>Every detail. Every sip. Your brand.</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const lenis=new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
+    function raf(time){lenis.raf(time);requestAnimationFrame(raf)}requestAnimationFrame(raf);
+    gsap.ticker.add(time=>lenis.raf(time*1000));gsap.ticker.lagSmoothing(0);
+    function dismissPreloader(){document.getElementById('preloader').classList.add('done')}
+    window.addEventListener('load',()=>setTimeout(dismissPreloader,500));setTimeout(dismissPreloader,2500);
+    gsap.registerPlugin(ScrollTrigger);
+    let lastY=0;const nav=document.getElementById('nav');
+    lenis.on('scroll',({scroll})=>{if(scroll>50)nav.classList.add('scrolled');else nav.classList.remove('scrolled');if(scroll>lastY&&scroll>250)nav.classList.add('hidden');else nav.classList.remove('hidden');lastY=scroll});
+    const hamburger=document.getElementById('hamburger');const mobileMenu=document.getElementById('mobile-menu');
+    hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':''});
+    function closeMenu(){hamburger.classList.remove('active');mobileMenu.classList.remove('open');document.body.style.overflow=''}
+    document.querySelectorAll('[data-reveal]').forEach((el,i)=>{gsap.from(el,{y:24,opacity:0,duration:.6,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true},delay:(i%4)*.06})});
+    function toggleMugs(btn){const g=document.getElementById('mugs');btn.classList.toggle('on');g.classList.toggle('show');btn.querySelector('.arr').textContent=g.classList.contains('show')?'▴':'▾'}
+    document.querySelectorAll('.fq-btn').forEach(btn=>{btn.addEventListener('click',()=>{const item=btn.parentElement;const wasOn=item.classList.contains('on');document.querySelectorAll('.fq').forEach(f=>f.classList.remove('on'));if(!wasOn)item.classList.add('on')})});
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();closeMenu();const t=document.querySelector(a.getAttribute('href'));if(t)lenis.scrollTo(t,{offset:-50})})});
+    mobileMenu.querySelectorAll('a').forEach(a=>{a.addEventListener('click',closeMenu)});
+  </script>
+</body>
+</html>
